@@ -26,18 +26,18 @@ cache:
   paths:
     - .m2/repository
 
-build:
-  stage: build
+.pre:
+  stage: check
   script:
-    - 'mvn $MAVEN_CLI_OPTS clean install -DskipTests -Dfmt.skip=true'
+    - 'mvn $MAVEN_CLI_OPTS fmt:check'
   only:
     variables:
       - $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
-check-code-style:
-  stage: check
+build:
+  stage: build
   script:
-    - 'mvn $MAVEN_CLI_OPTS fmt:check'
+    - 'mvn $MAVEN_CLI_OPTS clean install -DskipTests -Dfmt.skip=true'
   only:
     variables:
       - $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
