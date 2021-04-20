@@ -26,15 +26,7 @@ cache:
   paths:
     - .m2/repository
 
-.pre:
-  stage: check
-  script:
-    - 'mvn $MAVEN_CLI_OPTS fmt:check'
-  only:
-    variables:
-      - $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-
-build:
+build-application:
   stage: build
   script:
     - 'mvn $MAVEN_CLI_OPTS clean install -DskipTests -Dfmt.skip=true'
@@ -42,7 +34,15 @@ build:
     variables:
       - $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
-test:
+code-formatting-check:
+  stage: test
+  script:
+    - 'mvn $MAVEN_CLI_OPTS fmt:check'
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+run-junit-tests:
   stage: test
   script:
     - 'mvn $MAVEN_CLI_OPTS clean test'
