@@ -49,3 +49,20 @@ run-junit-tests:
   only:
     variables:
       - $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+deploy-to-test:
+  stage: deploy
+  script:
+    - 'echo deploy to the test environment'
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+deploy-to-prod:
+  stage: deploy
+  when: manual
+  script:
+    - 'echo deploy artifact to nexus repository'
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
